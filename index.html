@@ -20,19 +20,19 @@
 
         var cardJs;
 
-        function displayFieldsBasedOnPaymentMethod() {
-            let paymentMethod = $("[name=paymentMethod]:checked").val();
-            $(".payment-modal__inputs--credit-card").hide();
-            $(".payment-modal__inputs--bank-account").hide();
-            setErrors([]);
-            if (paymentMethod == 'bankAccount') {
-                $("[name=nameOnAccount]").val($("[name=cardholderName]").val());
-                $(".payment-modal__inputs--bank-account").show();
-            } else if (paymentMethod == 'creditCard') {
-                $("[name=cardholderName]").val($("[name=nameOnAccount]").val());
-                $(".payment-modal__inputs--credit-card").show();
-            }
-        }
+        // function displayFieldsBasedOnPaymentMethod() {
+        //     let paymentMethod = $("[name=paymentMethod]:checked").val();
+        //     $(".payment-modal__inputs--credit-card").hide();
+        //     $(".payment-modal__inputs--bank-account").hide();
+        //     setErrors([]);
+        //     if (paymentMethod == 'bankAccount') {
+        //         $("[name=nameOnAccount]").val($("[name=cardholderName]").val());
+        //         $(".payment-modal__inputs--bank-account").show();
+        //     } else if (paymentMethod == 'creditCard') {
+        //         $("[name=cardholderName]").val($("[name=nameOnAccount]").val());
+        //         $(".payment-modal__inputs--credit-card").show();
+        //     }
+        // }
 
         function setErrors(errors, $errorFields) {
             let errorHtml = "";

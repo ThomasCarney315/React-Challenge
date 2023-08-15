@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server",
-    "development": "mix",
+    "start": "http-server -c-1",
+    "dev": "mix",
     "watch": "mix watch",
-    "production": "mix --production"
+    "production": "mix --production",
+    "live" : "live-server --port=8080 --entry-file=index.html"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.22.5",
@@ -23,6 +24,7 @@
     "jquery": true
   },
   "dependencies": {
+    "live-server": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

@@ -5009,6 +5009,19 @@ input.error {
     margin: 0 auto;
   }
 }
+.payment-modal-typography {
+  font-family: "Overture Georgia", "Georgia", serif;
+}
+
+#payment-radio {
+  border: 1px solid grey;
+  border-radius: 9px;
+}
+
+input[type=radio]:checked + #payment-radio {
+  border-top: 5px solid #1890ff;
+}
+
 body {
   background-color: #f6f6f6;
 }
@@ -5041,6 +5054,13 @@ button {
   padding: 1rem 3.2rem 1rem 3.2rem;
 }
 
+.form-pay-button {
+  width: 100%;
+  height: 46px;
+  border-radius: 9px;
+  text-transform: none;
+}
+
 .payment-modal, .payment-success-modal {
   position: fixed;
   inset: 0px;
@@ -5069,7 +5089,7 @@ button {
   cursor: wait;
 }
 .payment-modal__form {
-  font-size: 2rem;
+  font-size: 1.75rem;
   text-align: center;
 }
 .payment-modal__payment-method label {

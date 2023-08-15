@@ -40,6 +40,43 @@ var InvoiceApp = function InvoiceApp() {
     _useState8 = _slicedToArray(_useState7, 2),
     formSubmitting = _useState8[0],
     setFormSubmitting = _useState8[1];
+  //state for determining which payment method is shown based on selected radio button
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('bankAccount'),
+    _useState10 = _slicedToArray(_useState9, 2),
+    paymentMethod = _useState10[0],
+    setPaymentMethod = _useState10[1];
+  //state for account name sync between credit card and bank account name fields
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState12 = _slicedToArray(_useState11, 2),
+    accountName = _useState12[0],
+    setAccountName = _useState12[1];
+  //state for prices displayed on payment modal
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('$2500.00'),
+    _useState14 = _slicedToArray(_useState13, 2),
+    price = _useState14[0],
+    setPrice = _useState14[1];
+  //state for date displayed on payment modal
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date().toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })),
+    _useState16 = _slicedToArray(_useState15, 2),
+    date = _useState16[0],
+    setDate = _useState16[1];
+  var ChangeAccountName = function ChangeAccountName(e) {
+    setAccountName(e.target.value);
+  };
+  var changePaymentMethod = function changePaymentMethod(e) {
+    setPaymentMethod(e.target.value);
+  };
+
+  //form input control numbers
+  var formControlNums = function formControlNums(e) {
+    if (!(e.key == 'Backspace' || e.key == 'Delete' || e.key == 'ArrowLeft' || e.key == 'ArrowRight' || e.key == 'Tab') && !/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
   var submitPaymentForm = function submitPaymentForm(e) {
     e.preventDefault();
     if (formSubmitting) {
@@ -56,7 +93,6 @@ var InvoiceApp = function InvoiceApp() {
     var bankData = {};
     var secureData = {};
     secureData.authData = authData;
-    var paymentMethod = $("[name=paymentMethod]:checked").val();
     if (paymentMethod == 'creditCard') {
       cardData.cardNumber = cardJs.getCardNumber().replace(/[^0-9]/gi, '');
       cardData.month = cardJs.getExpiryMonth().replace(/[^0-9]/gi, '');
@@ -154,7 +190,7 @@ var InvoiceApp = function InvoiceApp() {
             className: "preview__overview__creator",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "preview__overview__creator__full-name",
-              children: "Bob Loblaw, Esq."
+              children: "12 Loblaw, Esq."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "preview__overview__creator__email",
               children: "bloblaw@lfbrown.law"
@@ -374,38 +410,113 @@ var InvoiceApp = function InvoiceApp() {
           action: "/",
           onSubmit: submitPaymentForm,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-            className: "payment-modal__form",
+            className: "payment-modal__form payment-modal-typography",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+              className: "loose-caps",
+              style: {
+                "textAlign": "start"
+              },
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+                style: {
+                  "textAlign": "start",
+                  "marginTop": ".25em",
+                  "marginBottom": "-.25em",
+                  "color": "grey"
+                },
+                children: "PAYMENT AMOUNT"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
+                style: {
+                  "textAlign": "start",
+                  "marginTop": ".0em",
+                  "marginBottom": ".25em",
+                  "fontSize": "2.5em"
+                },
+                children: price
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "payment-modal__payment-method",
+              style: {
+                "display": "-webkit-flex",
+                "justifyContent": "space-evenly",
+                "alignItems": "center"
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                onClick: changePaymentMethod,
+                id: "creditCard",
+                type: "radio",
+                name: "paymentMethod",
+                value: "creditCard",
+                style: {
+                  "WebkitAppearance": "none"
+                }
+              }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                id: "payment-radio",
+                htmlFor: "creditCard",
+                style: {
+                  "margin": "0px",
+                  "display": "inline-flex",
+                  "width": "47%",
+                  "height": "56px",
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                  style: {
+                    "display": "inline-block",
+                    "height": "40px",
+                    "alignSelf": "center"
+                  },
+                  src: "img/credit-card.svg",
+                  alt: "Credit Card"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                onClick: changePaymentMethod,
                 id: "bankAccount",
                 type: "radio",
                 name: "paymentMethod",
                 defaultChecked: "checked",
-                value: "bankAccount"
+                value: "bankAccount",
+                style: {
+                  "WebkitAppearance": "none"
+                }
               }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                id: "payment-radio",
                 htmlFor: "bankAccount",
-                children: "Bank Account"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-                id: "creditCard",
-                type: "radio",
-                name: "paymentMethod",
-                value: "creditCard"
-              }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
-                htmlFor: "creditCard",
-                children: "Credit Card"
+                style: {
+                  "margin": "0px",
+                  "display": "inline-flex",
+                  "width": "47%",
+                  "height": "56px",
+                  "justifyContent": "center",
+                  "alignItems": "center"
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                  style: {
+                    "display": "inline-block",
+                    "height": "40px",
+                    "alignSelf": "center"
+                  },
+                  src: "img/bank.svg",
+                  alt: "Bank Account"
+                })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "payment-modal__inputs payment-modal__inputs--bank-account",
+              style: {
+                "display": paymentMethod == 'bankAccount' ? '' : 'none'
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                 className: "payment-modal__inputs__input--full-width",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
                   htmlFor: "nameOnAccount",
                   children: "Name on Account"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onChange: ChangeAccountName,
+                  id: "nameOnAccount",
                   type: "text",
                   name: "nameOnAccount",
-                  autoComplete: "cc-name"
+                  autoComplete: "cc-name",
+                  value: accountName
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                 className: "payment-modal__inputs__input",
@@ -433,6 +544,7 @@ var InvoiceApp = function InvoiceApp() {
                   htmlFor: "routingNumber",
                   children: "Routing Number"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "routingNumber",
                   id: "routingNumber",
@@ -445,6 +557,7 @@ var InvoiceApp = function InvoiceApp() {
                   htmlFor: "accountNumber",
                   children: "Account Number"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "accountNumber",
                   id: "accountNumber",
@@ -457,6 +570,7 @@ var InvoiceApp = function InvoiceApp() {
                   htmlFor: "accountNumberConfirm",
                   children: "Confirm Account Number"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "accountNumberConfirm",
                   id: "accountNumberConfirm",
@@ -468,24 +582,15 @@ var InvoiceApp = function InvoiceApp() {
               id: "card-js",
               className: "payment-modal__inputs payment-modal__inputs--credit-card",
               style: {
-                "display": "none"
+                "display": paymentMethod == 'creditCard' ? '' : 'none'
               },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-                className: "payment-modal__inputs__input payment-modal__inputs__input--full-width",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
-                  htmlFor: "cardholderName",
-                  children: "Cardholder Name"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-                  type: "text",
-                  name: "cardholderName",
-                  className: "name"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                 className: "payment-modal__inputs__input payment-modal__inputs__input--full-width",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
                   htmlFor: "cardNumber",
                   children: "Card Number"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   className: "card-number",
                   name: "cardNumber",
@@ -499,12 +604,14 @@ var InvoiceApp = function InvoiceApp() {
                   htmlFor: "expiration",
                   children: "Expiration"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "expMonth",
                   className: "expiry-month",
                   inputMode: "numeric",
                   autoComplete: "cc-exp-month"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "expYear",
                   className: "expiry-year",
@@ -517,6 +624,7 @@ var InvoiceApp = function InvoiceApp() {
                   htmlFor: "cardCode",
                   children: "CVC"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "cardCode",
                   className: "cvc",
@@ -529,22 +637,65 @@ var InvoiceApp = function InvoiceApp() {
                   htmlFor: "zipCode",
                   children: "Zip Code"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onKeyDown: formControlNums,
                   type: "text",
                   name: "zipCode",
                   inputMode: "numeric",
                   maxLength: "20"
                 })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                className: "payment-modal__inputs__input payment-modal__inputs__input--full-width",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+                  htmlFor: "cardholderName",
+                  children: "Cardholder Name"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+                  onChange: ChangeAccountName,
+                  id: "cardholderName",
+                  type: "text",
+                  name: "cardholderName",
+                  className: "name",
+                  value: accountName
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                  style: {
+                    "textAlign": "start"
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                    style: {
+                      "marginTop": ".5em"
+                    },
+                    src: "img/cards.png",
+                    alt: "cards"
+                  })
+                })]
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "payment-error"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "payment-modal__submit-container",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                className: "pay-button",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                style: {
+                  "width": "98%"
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("p", {
+                  style: {
+                    "color": "grey"
+                  },
+                  children: ["By selecting ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+                    children: "Pay"
+                  }), ", I authorize Overture Law, P.C. to charge ", price, " to my card on ", date, "."]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+                className: "form-pay-button pay-button",
                 type: "submit",
                 disabled: formSubmitting,
-                children: "Pay"
-              })
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                  style: {
+                    "height": "1.75rem"
+                  },
+                  src: "img/lock.svg",
+                  alt: "lock"
+                }), " Pay ", price]
+              })]
             })]
           })
         })

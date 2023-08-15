@@ -7,15 +7,37 @@ const InvoiceApp = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPaymentSuccessModal, setShowPaymentSuccessModal] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
+  //state for determining which payment method is shown based on selected radio button
+  const [paymentMethod, setPaymentMethod] = useState('bankAccount');
+  //state for account name sync between credit card and bank account name fields
+  const [accountName, setAccountName] = useState('');
+  //state for prices displayed on payment modal
+  const [price, setPrice] = useState('$2500.00');
+  //state for date displayed on payment modal
+  const [date, setDate] = useState(new Date().toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}));
+
+  const ChangeAccountName = function(e) {
+    setAccountName(e.target.value);
+  };
+
+  const changePaymentMethod = function(e) {
+    setPaymentMethod(e.target.value);
+  };
+
+  //form input control numbers
+  const formControlNums = function(e) {
+    if (!(e.key == 'Backspace' || e.key == 'Delete' || e.key == 'ArrowLeft' || e.key == 'ArrowRight' || e.key == 'Tab') && !/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
 
   const submitPaymentForm = function(e) {
     e.preventDefault();
-
+  
     if (formSubmitting) {
         console.log('form is already being submitted, preventing double submit');
         return;
     }
-
 
     let errors = [];
     let $errorFields = [];
@@ -28,7 +50,7 @@ const InvoiceApp = () => {
     var secureData = {};
     secureData.authData = authData;
 
-    let paymentMethod = $("[name=paymentMethod]:checked").val();
+    
     if (paymentMethod == 'creditCard') {
         cardData.cardNumber = cardJs.getCardNumber().replace(/[^0-9]/gi,'');
         cardData.month = cardJs.getExpiryMonth().replace(/[^0-9]/gi,'');
@@ -103,7 +125,7 @@ const InvoiceApp = () => {
             </div>
             <img className="preview__overview__logo" src="img/lfbrown-sm.png" alt="logo"/>
             <div className="preview__overview__creator">
-              <div className="preview__overview__creator__full-name">Bob Loblaw, Esq.</div>
+              <div className="preview__overview__creator__full-name">12 Loblaw, Esq.</div>
               <div className="preview__overview__creator__email">bloblaw@lfbrown.law</div>
             </div>
           </div>
@@ -192,15 +214,22 @@ const InvoiceApp = () => {
       <div className={"payment-modal " + (showPaymentModal ? "" : "payment-modal--hidden") + (formSubmitting ? "payment-modal--submitting" : "")} onClick={(e) => setShowPaymentModal(false)}>
           <div className="payment-modal__container center-block" onClick={(e) => e.stopPropagation()}>
               <form id="paymentForm" method="post" action="/" onSubmit={submitPaymentForm}>
-                  <div className="payment-modal__form">
-                      <div className="payment-modal__payment-method">
-                          <input id="bankAccount" type="radio" name="paymentMethod" defaultChecked="checked" value="bankAccount" /> <label htmlFor="bankAccount">Bank Account</label>
-                          <input id="creditCard" type="radio" name="paymentMethod" value="creditCard" /> <label htmlFor="creditCard">Credit Card</label>
+                  <div className="payment-modal__form payment-modal-typography" >
+                      <div className="loose-caps" style={{"textAlign": "start"}}>
+                      <p style={{"textAlign": "start", "marginTop" : ".25em", "marginBottom" : "-.25em", "color" : "grey"}}>PAYMENT AMOUNT</p>
+                      <h2 style={{"textAlign": "start", "marginTop" : ".0em", "marginBottom" : ".25em", "fontSize" : "2.5em"}}>{price}</h2>
                       </div>
-                      <div className="payment-modal__inputs payment-modal__inputs--bank-account">
+                      <div className="payment-modal__payment-method" style={{"display" : "-webkit-flex", "justifyContent" : "space-evenly", "alignItems" : "center"}}>
+
+                          <input onClick={changePaymentMethod} id="creditCard" type="radio" name="paymentMethod" value="creditCard" style={{"WebkitAppearance" : "none"}} /> <label id="payment-radio" htmlFor="creditCard" style={{"margin" : "0px", "display" : "inline-flex", "width" : "47%", "height" : "56px", "justifyContent" : "center", "alignItems" : "center"}}><img style={{"display" : "inline-block", "height" : "40px", "alignSelf" : "center"}} src="img/credit-card.svg" alt="Credit Card" /></label>
+                        
+                          <input onClick={changePaymentMethod} id="bankAccount" type="radio" name="paymentMethod" defaultChecked="checked" value="bankAccount" style={{"WebkitAppearance" : "none"}} /> <label id="payment-radio" htmlFor="bankAccount" style={{"margin" : "0px", "display" : "inline-flex", "width" : "47%", "height" : "56px", "justifyContent" : "center", "alignItems" : "center"}}><img style={{"display" : "inline-block", "height" : "40px", "alignSelf" : "center"}} src="img/bank.svg" alt="Bank Account" /></label>
+
+                      </div>
+                      <div className="payment-modal__inputs payment-modal__inputs--bank-account" style={{"display": paymentMethod == 'bankAccount' ? '' : 'none'}}>
                           <div className="payment-modal__inputs__input--full-width">
                               <label htmlFor="nameOnAccount">Name on Account</label>
-                              <input type="text" name="nameOnAccount" autoComplete="cc-name" /> 
+                              <input onChange={ChangeAccountName} id="nameOnAccount" type="text" name="nameOnAccount" autoComplete="cc-name" value={accountName} /> 
                           </div>
                           <div className="payment-modal__inputs__input">
                               <label htmlFor="accountType">Account Type</label>
@@ -213,44 +242,50 @@ const InvoiceApp = () => {
                           </div>
                           <div className="payment-modal__inputs__input">
                               <label htmlFor="routingNumber">Routing Number</label>
-                              <input type="text" name="routingNumber" id="routingNumber" inputMode="numeric" maxLength="9" />
+                              <input onKeyDown={formControlNums} type="text" name="routingNumber" id="routingNumber" inputMode="numeric" maxLength="9" />
                           </div>
                           <div className="payment-modal__inputs__input">
                               <label htmlFor="accountNumber">Account Number</label>
-                              <input type="text" name="accountNumber" id="accountNumber" inputMode="numeric" maxLength="17" />
+                              <input onKeyDown={formControlNums} type="text" name="accountNumber" id="accountNumber" inputMode="numeric" maxLength="17" />
                           </div> 
                           <div className="payment-modal__inputs__input">
                               <label htmlFor="accountNumberConfirm">Confirm Account Number</label>
-                              <input type="text" name="accountNumberConfirm" id="accountNumberConfirm" inputMode="numeric" maxLength="17" /> <br /><br />
+                              <input onKeyDown={formControlNums} type="text" name="accountNumberConfirm" id="accountNumberConfirm" inputMode="numeric" maxLength="17" /> <br /><br />
                           </div>
                           
                       </div>
-                      <div id="card-js" className="payment-modal__inputs payment-modal__inputs--credit-card" style={{"display": "none"}}>
-                          <div className="payment-modal__inputs__input payment-modal__inputs__input--full-width">
-                              <label htmlFor="cardholderName">Cardholder Name</label>
-                              <input type="text" name="cardholderName" className="name" /> 
-                          </div>
+                      <div id="card-js" className="payment-modal__inputs payment-modal__inputs--credit-card" style={{"display": paymentMethod == 'creditCard' ? '' : 'none'}}>
                           <div className="payment-modal__inputs__input payment-modal__inputs__input--full-width">
                               <label htmlFor="cardNumber">Card Number</label>
-                              <input type="text" className="card-number" name="cardNumber" placeholder="1234 1234 1234 1234" inputMode="numeric" autoComplete="cc-number" />
+                              <input onKeyDown={formControlNums} type="text" className="card-number" name="cardNumber" placeholder="1234 1234 1234 1234" inputMode="numeric" autoComplete="cc-number" />
                           </div>
                           <div className="payment-modal__inputs__input">
                               <label htmlFor="expiration">Expiration</label>
-                              <input type="text" name="expMonth" className="expiry-month" inputMode="numeric" autoComplete="cc-exp-month"  /> 
-                              <input type="text" name="expYear" className="expiry-year" inputMode="numeric" autoComplete="cc-exp-year" /> 
+                              <input onKeyDown={formControlNums} type="text" name="expMonth" className="expiry-month" inputMode="numeric" autoComplete="cc-exp-month"  /> 
+                              <input onKeyDown={formControlNums} type="text" name="expYear" className="expiry-year" inputMode="numeric" autoComplete="cc-exp-year" /> 
                           </div>
                           <div className="payment-modal__inputs__input payment-modal__inputs__input--one-sixth">
                               <label htmlFor="cardCode">CVC</label>
-                              <input type="text" name="cardCode" className="cvc" inputMode="numeric" autoComplete="cc-csc" />
+                              <input onKeyDown={formControlNums} type="text" name="cardCode" className="cvc" inputMode="numeric" autoComplete="cc-csc" />
                           </div>
                           <div className="payment-modal__inputs__input payment-modal__inputs__input--one-third">
                               <label htmlFor="zipCode">Zip Code</label>
-                              <input type="text" name="zipCode" inputMode="numeric" maxLength="20" /> 
+                              <input onKeyDown={formControlNums} type="text" name="zipCode" inputMode="numeric" maxLength="20" /> 
+                          </div>
+                          <div className="payment-modal__inputs__input payment-modal__inputs__input--full-width">
+                              <label htmlFor="cardholderName">Cardholder Name</label>
+                              <input onChange={ChangeAccountName} id="cardholderName" type="text" name="cardholderName" className="name" value={accountName}/>
+                            <div style={{"textAlign" : "start"}}>
+                              <img style={{"marginTop" : ".5em"}} src="img/cards.png" alt="cards" />
+                            </div>   
                           </div>
                       </div>
                       <div className="payment-error"></div>
                       <div className="payment-modal__submit-container">
-                          <button className="pay-button" type="submit" disabled={formSubmitting}>Pay</button>
+                          <div style={{"width" : "98%"}}>
+                            <p style={{"color" : "grey"}}>By selecting <strong>Pay</strong>, I authorize Overture Law, P.C. to charge {price} to my card on {date}.</p>
+                          </div>
+                          <button  className="form-pay-button pay-button" type="submit" disabled={formSubmitting}><img style={{"height" : "1.75rem"}} src="img/lock.svg" alt="lock" /> Pay {price}</button>
                       </div>
                   </div>
               </form>

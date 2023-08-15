@@ -27,6 +27,19 @@
 @import "components/component.buttons";
 @import "components/component.time-entry-table";
 @import "components/component.preview";
+//setting font for payment modal
+.payment-modal-typography {
+  font-family: $serif;
+}
+//setting borders for payment selection inputs
+#payment-radio {
+  border: 1px solid grey;
+  border-radius: 9px;
+}
+//setting blue accent top border for selected payment method
+input[type="radio"]:checked + #payment-radio {
+	border-top: 5px solid $link-blue;
+}
 
 body {
   background-color: #f6f6f6;
@@ -55,6 +68,13 @@ button {
   border-radius: 7rem;
   text-transform: uppercase;
   padding: 1rem 3.2rem 1rem 3.2rem;
+}
+// set additional styles for form payment button
+.form-pay-button {
+  width: 100%;
+  height: 46px;
+  border-radius: 9px;
+  text-transform: none;
 }
 
 .payment-modal, .payment-success-modal {
@@ -93,7 +113,7 @@ button {
     cursor: wait;
   }
   &__form {
-    font-size: 2rem;
+    font-size: 1.75rem;
     text-align: center
   }
   &__payment-method {
