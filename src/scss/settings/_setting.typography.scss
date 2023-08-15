@@ -1,0 +1,79 @@
+// typography
+
+// google fonts
+
+$alt-serif-weights: '800';
+$sans-serif-weights: '400;500;600';
+
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@#{$alt-serif-weights}&family=Jost:wght@#{$sans-serif-weights}&display=swap');
+
+// packaged Georgia font
+@font-face {
+  font-family: 'Overture Georgia';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Georgia Regular'), url('fonts/georgia/georgia.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Overture Georgia';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Georgia Italic'), url('fonts/georgia/georgiai.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Overture Georgia';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Georgia Bold'), url('fonts/georgia/georgiab.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Overture Georgia';
+  font-style: italic;
+  font-weight: normal;
+  src: local('Georgia Bold Italic'), url('fonts/georgia/georgiaz.woff') format('woff');
+}
+
+
+/* Text Settings */
+.text {
+  &--center {
+    text-align: center;
+  }
+  &--grey {
+    color: $true-grey;
+    &--small {
+      font-size: 1.6rem;
+    }
+  }
+  &--page-title {
+    font-family: $serif;
+    font-size: 3.7rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  &--section-label {
+    font-size: 1.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: $text-black;
+    margin: 0;
+  }
+  &--bold-label {
+    font-size: 1.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: $text-black;
+    margin: 0;
+  }
+  &--large {
+    font-size: 20px;
+  }
+  &--uppercase {
+    text-transform: uppercase;
+  }
+}

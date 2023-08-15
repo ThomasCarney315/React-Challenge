@@ -1,0 +1,74 @@
+@mixin spring($width-1, $width-2:false) {
+  width: 100%;
+  max-width: $width-1;
+  @if $width-2 != false {
+    @include media('<=tablet') {
+      @include spring($width-2);
+    }
+  }
+}
+
+@mixin mono-spring($width) {
+  @include spring($width);
+  @include media('<=tablet') {
+    @include spring(100%);
+  }
+}
+
+@mixin fluid-image($val, $fit: contain) {
+  position: relative;
+  height: 0;
+  padding-bottom: $val;
+  img {
+    @include size(100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: $fit;
+  }
+}
+
+@mixin absolute-center($direction:'both') {
+  position: absolute;
+  @if ( $direction == 'both' ) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @if ( $direction == 'x' ) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @if ( $direction == 'y' ) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin responsive-container($max-width, $responsive-gutter) {
+  width: 100%;
+  max-width: $max-width;
+  margin: auto;
+  box-sizing: border-box;
+  $breakpoint: $max-width + 2*($responsive-gutter);
+  @include media('<=#{$breakpoint}') {
+    max-width: 100%;
+    padding-left: $responsive-gutter;
+    padding-right: $responsive-gutter;
+  }
+}
+
+@mixin size($width, $height:$width) {
+  width: $width;
+  height: $height;
+}
+
+%em-sizing {
+  font-size: 10px;
+  @include media('<=desktop-size-lg') {
+    font-size: 9px;
+  }
+  @include media('<=desktop') {
+    font-size: 8px;
+  }
+}

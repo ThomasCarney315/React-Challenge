@@ -1,0 +1,42 @@
+
+
+.session {
+  $this: ".session";
+  $global-border: 1px solid $text-black;
+  $global-border-radius: 0.75rem;
+
+  %global-field {
+    border: $global-border;
+    border-radius: $global-border-radius;
+  }
+
+  &--text {
+    border: $global-border;
+    border-radius: $global-border-radius;
+    padding-left: 1rem;
+    color: $text-black;
+    margin: 0;
+  }
+  &--search {
+    $override: #{$this}--text;
+    &#{$override} {
+      font-size: 1.8rem;
+      padding-left: 3.5rem;
+      background-image: url("/static/imgs/icons/search.svg");
+      background-repeat: no-repeat;
+      background-size: 1.8rem;
+      background-position: 1rem 50%;
+    }
+  }
+  &--select {
+    border: none !important;
+    &__control {
+      @include perch("^-^");
+      border: $global-border !important;
+      border-radius: $global-border-radius !important;
+    }
+    &__option {
+      font-size: 1.8rem !important;
+    }
+  }
+}

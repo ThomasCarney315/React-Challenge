@@ -1,0 +1,42 @@
+.type {
+    $this: '.type';
+    padding-left: 1rem;
+    position: relative;
+    height: auto;
+    @include pseudo {
+        @include size(1rem);
+        top: 34%;
+        border-radius: 50%;
+        left: -.75rem;
+    }
+    &--referred {
+        @include pseudo {
+            background-color: $red;
+        }
+    }
+    &--matched {
+        @include pseudo {
+            background-color: $red;
+        }
+    }
+    &--active {
+        @include pseudo {
+            background-color: $link-blue;
+        }
+    }
+    &--in-review {
+        @include pseudo {
+            background-color: $burntYellow;
+        }
+    }
+    &--open {
+        @include pseudo {
+            background-color: $green;
+        }
+    }
+    &--pending {
+        @include pseudo {
+            background-color: $orange;
+        }
+    }
+}

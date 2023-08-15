@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="robots" content="noindex">
+        <title>L&F Brown invoice for James Williams</title>
+        <link rel="icon" type="image/png" href="img/favicon.png" />
+        <link href="dist/invoice.css" media="screen" rel="stylesheet" type="text/css">
+        <link href="dist/cardjs/card-type-icon.css" media="screen" rel="stylesheet" type="text/css">
+    </head>
+    <body class="">
+
+        <div id="app"></div>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="dist/app.js"></script>
+        <script src="dist/cardjs/formatting.js"></script>
+        <script type="text/javascript">
+
+        var cardJs;
+
+        function displayFieldsBasedOnPaymentMethod() {
+            let paymentMethod = $("[name=paymentMethod]:checked").val();
+            $(".payment-modal__inputs--credit-card").hide();
+            $(".payment-modal__inputs--bank-account").hide();
+            setErrors([]);
+            if (paymentMethod == 'bankAccount') {
+                $("[name=nameOnAccount]").val($("[name=cardholderName]").val());
+                $(".payment-modal__inputs--bank-account").show();
+            } else if (paymentMethod == 'creditCard') {
+                $("[name=cardholderName]").val($("[name=nameOnAccount]").val());
+                $(".payment-modal__inputs--credit-card").show();
+            }
+        }
+
+        function setErrors(errors, $errorFields) {
+            let errorHtml = "";
+            let lineBreak = "<br />";
+            errors.forEach(err => {
+                errorHtml += err + lineBreak;
+            });
+            errorHtml = errorHtml.substring(0, errorHtml.length - lineBreak.length);
+            $(".payment-error").html(errorHtml);
+            $(".has-error").removeClass("has-error");
+            if ($errorFields) {
+                $errorFields.forEach($ef => {
+                    $ef.addClass('has-error');
+                });
+            }
+        }
+
+         $(function () {
+
+            //clear existing values from sensitive fields
+            $("[name=accountNumber],[name=accountNumberConfirm],[name=expMonth],[name=expYear],[name=cardCode]").val("");
+
+            // set up credit card field
+            cardJs = new CardJs(document.getElementById("card-js"));
+            displayFieldsBasedOnPaymentMethod(); // in case the page is reloaded, in which case the payment method radio button selection is remembered by browser
+
+             $("[name=paymentMethod]").change(function() {
+                displayFieldsBasedOnPaymentMethod();
+             });
+
+         });
+
+
+        </script>
+        
+
+        
+    </body>
+</html>

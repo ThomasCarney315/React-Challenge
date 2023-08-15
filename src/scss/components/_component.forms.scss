@@ -1,0 +1,256 @@
+// fields variables
+$placeholderColor: $ghost-grey;
+
+%form {
+  // generic
+  ::-webkit-input-placeholder {
+    color: $placeholderColor;
+    opacity: 1;
+  }
+
+  :-moz-placeholder {
+    color: $placeholderColor;
+    opacity: 1;
+  }
+
+  ::-moz-placeholder {
+    color: $placeholderColor;
+    opacity: 1;
+  }
+
+  :-ms-input-placeholder {
+    color: $placeholderColor;
+    opacity: 1;
+  }
+}
+
+form {
+  @extend %form;
+}
+
+// global form component
+.form {
+  //selectors
+  $this: '.form';
+  $inline-fields: '#{$this}__inline-fields';
+  $full-width-inputs: '#{$this}--full-width-inputs';
+
+  // dropdown icon templates
+  $state-dropdown: '.member-profiles__search-bar__fields__select--state' '.referrals__select--state' '.newreferral-form__select--state';
+
+  //component variables
+  $inputs-max-width-desktop: 40rem;
+  $global-border: 1px solid $light-grey;
+  $global-border-radius: .75rem;
+
+  // react-select styling needs more specificity. See: https://github.com/JedWatson/react-select/issues/4230
+  $__input-container: specify('#{$this}__select__input-container');
+  $__value-container: specify('#{$this}__select__value-container');
+  $__label: specify('#{$this}__select__multi-value__label');
+  $__remove: specify('#{$this}__select__multi-value__remove');
+  $__placeholder: specify('#{$this}__select__placeholder');
+  $__single-value: specify('#{$this}__select__single-value');
+
+  @mixin newFieldIcon($buttonSrc, $fieldType, $backgroundSize: 1.8rem, $placeholderPadding: 2.45rem, $valuePadding: 2.25rem) {
+    background-image: url('#{$buttonSrc}');
+    background-repeat: no-repeat;
+    background-size: $backgroundSize;
+    background-position: 1rem 50%;
+    font-size: 1.6rem;
+    @if ($fieldType == 'input' or $fieldType == 'input/select') {
+      padding-left: 3.5rem;
+    }
+    @if ($fieldType == 'input') {
+      padding-top: 7.65px;
+      padding-bottom: 7.65px;
+    }
+    #{$__placeholder} {
+      padding-left: $placeholderPadding;
+    }
+    #{$__single-value} {
+      padding-left: $valuePadding;
+    }
+
+  }
+
+  &__field {
+    @include when($inline-fields) {
+      flex-grow: 3;
+    }
+    &--text {
+      border: $global-border;
+      border-radius: $global-border-radius;
+      padding-left: 1rem;
+      color: $text-black;
+      margin: 0;
+      &:placeholder {
+        color: $placeholderColor;
+
+      }
+    }
+    &--search {
+      $override: #{$this}__field--text;
+      &#{$override} {
+        @include spring(100%);
+        @include newFieldIcon('/static/imgs/icons/search.svg', 'input');
+      }
+    }
+    &--medium {
+      flex-grow: 2;
+    }
+    &--small {
+      flex-grow: 1;
+    }
+    &--large {
+      flex-grow: 4;
+    }
+    &--select {
+      border: none !important;
+      &__control {
+        @include perch('^-^');
+        border: $global-border !important;
+        border-radius: $global-border-radius !important;
+      }
+      &__option {
+        font-size: 1.8rem !important;
+      }
+    }
+  }
+  &__inline-fields {
+    display: flex;
+    margin-bottom: 1.5rem;
+
+    @include media("<=tablet") {
+      flex-direction: column;
+    }
+
+    &__degree {
+      @include media(">tablet") {
+        flex-grow: 1;
+        max-width: 35rem;
+      }
+    }
+
+    &__school {
+      @include media(">tablet") {
+        flex-grow: 1;
+      }
+    }
+
+    > div {
+      margin-right: 1rem;
+
+      @include media("<=tablet") {
+        margin-bottom: 1rem;
+      }
+
+      > label {
+        color: $true-grey;
+        font-weight: normal;
+      }
+
+      .button--plain-text-without-border {
+        @include media(">tablet") {
+          margin-top: 4.8rem;
+        }
+      }
+
+      @include media(">tablet") {
+        .profile__education-fields__tall-input {
+          height: 50px; /* make same height as the dropdown component */
+          width: 100%;
+        }
+
+      }
+    }
+  }
+
+  // state dropdown styling
+  @each $i in $state-dropdown {
+    #{$i} {
+      #{$__input-container} {
+        padding-left: 2.56rem;
+      }
+    }
+  }
+
+  &__input {
+    @include spring($inputs-max-width-desktop);
+    @include media('<=tablet') {
+      @include spring(100%);
+    }
+    &--full {
+      @include spring(100%);
+    }
+  }
+
+  &__select {
+
+    @include spring($inputs-max-width-desktop);
+
+
+    @include media('<=tablet') {
+      @include spring(100%);
+    }
+
+    @include when($full-width-inputs) {
+      @include spring(100%);
+          @include media('<=tablet') {
+            margin-top: 1.5rem;
+        }
+    }
+
+    &__control {
+      border-radius: $global-border-radius;
+      @include when($state-dropdown, default, true) {
+        @include newFieldIcon('/static/imgs/icons/location-outline.svg', 'input/select', 2rem, 0, 0);
+        #{$__value-container} {
+          padding: 0;
+        }
+      }
+    }
+
+    #{$__single-value} {
+    }
+
+    #{$__placeholder} {
+      color: $placeholderColor;
+      opacity: 1;
+    }
+
+    #{$__value-container} {
+      @include perch('+--');
+      margin: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    #{$__input-container} {
+        margin: 0;
+        padding: 0;
+    }
+
+    #{$__label} {
+      background-color: $lightGrey;
+    }
+
+    #{$__remove} {
+      background-color: $lightGrey;
+      &:hover {
+        background-color: $link-blue;
+        cursor: pointer;
+        svg {
+          fill: $white;
+          stroke: $white;
+        }
+      }
+      svg {
+          fill: $ghost-grey;
+          stroke: $ghost-grey;
+      }
+    }
+
+  }
+}
+
+

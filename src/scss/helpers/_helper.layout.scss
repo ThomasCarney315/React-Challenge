@@ -1,0 +1,46 @@
+%fullscreen {
+  position: fixed;
+  width: 100vw;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 111;
+  background-color: $lightGrey;
+  overflow-x: scroll;
+}
+
+%base-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.flex {
+  &--center {
+    @extend %base-flex;
+  }
+
+  &--start {
+    @extend %base-flex;
+    justify-content: flex-start;
+  }
+
+  &--end {
+    @extend %base-flex;
+    justify-content: end;
+  }
+
+  &__between {
+    @extend %base-flex;
+    justify-content: space-between;
+  }
+
+  &__vertical--between {
+    @extend %base-flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.fullscreen {
+  @extend %fullscreen;
+}

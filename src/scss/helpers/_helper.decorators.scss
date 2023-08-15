@@ -1,0 +1,159 @@
+@mixin generateShadow($style:"default") {
+  $variations: (
+  "default": '0px 0px 0px 0px rgba(0, 0, 0, 0)',
+  "material": '1px 1px 8px 2px rgba(0, 0, 0, 0.125)',
+  "mid-material": '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+  "deep-material": '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)',
+  "visible": '0 4px 8px 0 rgba(0, 0, 0, 0.01), 0 6px 20px 0 rgba(0, 0, 0, 0.02)',
+  "carousel": '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+  "order-summary": '0 0px 3px rgba(0,0,0,0.12), 0 0px 2px rgba(0,0,0,0.24)',
+  "feature-table": '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+  "semi-transparent": '0px 5px 9px 0px rgba(0, 0, 0, 0.24)',
+  "lite": '0px 0px 6px 2px rgba(0, 0, 0, 0.08);',
+  "super-lite": '0px 0px 6px 2px rgba(0, 0, 0, 0.05);',
+  "brite": '0px 0px 6px 2px rgba(255, 255, 255, 0.08);',
+  "lite-underneath": '0px 6px 6px 2px rgba(0, 0, 0, 0.08);',
+  "mobile-drawer": '1px 1px 17px rgba(45, 45, 45, 0.41)',
+  "green": '1px 1px 8px 2px rgb(57 181 74 / 51%);',
+  "deep-lite": '0 10px 30px 0 rgba(0,0,0,.08)'
+  );
+  box-shadow: unquote( map-get($variations, $style) );
+}
+
+%buttonShadow {
+  box-shadow: transparent;
+  transition: 250ms all;
+  padding: 1rem;
+  border-radius: 1rem;
+  & * {
+    transition: 250ms all;
+  }
+  &:hover {
+    @include generateShadow('lite');
+    & * {
+      color: $link-blue;
+    }
+  }
+}
+
+%black-border {
+  border: 1px solid $true-black;
+}
+
+
+%shade-below {
+  position: relative;
+  box-shadow: 0px 18px 14px 1px rgba(0, 0, 0, 0.03);
+  &:before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 2rem;
+  top: 0;
+  left: -2rem;
+  background: $white;
+  }
+  &:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 2rem;
+  top: 0;
+  right: -2rem;
+  background: $white;
+  }
+}
+
+@mixin newIconButton($name, $type:null, $iconUrl:null, $iconSize: contain) {
+        // settings
+        $padding-vertical:       $global-button-vertical-padding;
+        $padding-horizontal:     $global-button-horizontal-padding;
+        $padding-on-icon-side:   calc( $global-button-horizontal-padding + 2rem);
+        $position-for-icon:      2.2rem;
+
+        background-repeat: no-repeat;
+        background-position: 1.35rem center;
+        font-weight: 600;
+        border-radius: 7rem;
+        text-transform: uppercase;
+
+        @content;
+
+        // types & variants
+        @if ( $type == 'light-on-hover' ) {
+            &:hover {
+                &:before {
+                    filter: brightness(3);
+                }
+            }
+        }
+
+
+        @if ( $type == 'blue' ) {
+          border: 1px solid $link-blue;
+        }
+
+        @if ( $type == 'grey-border' ) {
+          border: 1px solid $light-grey;
+        }
+
+        @if ( $type == 'orange-border' ) {
+          border: 1px solid $orange;
+        }
+
+        @if ( $type == 'fade-on-hover' ) {
+          opacity: 1;
+          &:hover {
+            opacity: .8;
+          }
+        }
+
+        @if ( $type == 'padding-on-right-instead' ) {
+          padding: $padding-vertical $padding-on-icon-side $padding-vertical $padding-horizontal;
+        }
+
+        @else {
+          padding: $padding-vertical $padding-horizontal $padding-vertical $padding-on-icon-side;
+        }
+
+        @include pseudo {
+            @include size(2rem);
+            top: 50%;
+            background-size: $iconSize;
+            background-image: url("#{$iconUrl}");
+            background-repeat: no-repeat;
+            background-position: center;
+
+            @if ( $type != 'center-with-text' ) {
+              transform: translateY(-50%);
+            }
+
+            @if ( $type == 'light-on-hover' ) {
+                transition: filter 250ms;
+            }
+
+            @if ( $type == 'padding-on-right-instead' ) {
+              right: $position-for-icon;
+            }
+            @else if ( $type == 'center-with-text' )  {
+              left: -1.2rem;
+              position: relative;
+              display: inline-block;
+              transform: translateY(21%);
+            }
+            @else {
+              left: $position-for-icon;
+            }
+
+
+        }
+}
+
+.hr {
+  &--top {
+    border-top: 1px solid $true-black;
+  }
+  &--bottom {
+    border-bottom: 1px solid $true-black; 
+  }
+}

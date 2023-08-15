@@ -1,0 +1,8 @@
+@mixin pseudo($before-or-after:before) {
+    position: relative;
+    &:#{$before-or-after} {
+        content: '';
+        position: absolute;
+        @content;
+    }
+}

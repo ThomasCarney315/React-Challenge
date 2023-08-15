@@ -1,0 +1,29 @@
+{
+  "name": "webpack-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server",
+    "development": "mix",
+    "watch": "mix watch",
+    "production": "mix --production"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.22.5",
+    "http-server": "^14.1.1",
+    "laravel-mix": "^6.0.20",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.63.6",
+    "sass-loader": "^12.1.0"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "browser": true,
+    "jquery": true
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

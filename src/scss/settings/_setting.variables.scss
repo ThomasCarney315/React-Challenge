@@ -1,0 +1,76 @@
+// variables
+
+// type variables
+$serif: 'Overture Georgia', 'Georgia', serif;
+$alt-serif: 'Abhaya Libre', serif;
+$sans-serif: 'Jost', sans-serif;
+
+// dev-colors
+$cobalt: #2056ac;
+$grey: #555555;
+$lightGrey: #f3f3f3;
+$white: #ffffff;
+$red: #e5173e;
+$green: #14d56a;
+$lightBlue: #40a9ff;
+$burntYellow: #D6AD08;
+$babyBlue: #bbdeff;
+$starGold: #F6DD08;
+
+
+// Overture Brand Colors
+$text-black: #1f1f1f;
+$hard-black: #0b0b0b;
+$true-black: #000000;
+$hr-grey:    #ebebeb;
+$light-grey: #d1d1d1;
+$true-grey: #808080;
+$link-blue: #1890ff;
+$lighter-blue: #46a6ff;
+$light-text: #838383;
+$ghost-grey: #595959;
+$mid-grey: #dbdbdb;
+$off-white: #fefefe;
+$bright-grey: #fbfbfb;
+$disabledGrey: #cdcdcd;
+$orange: #e66b0e;
+$progress-bar-green: #14d56a;
+
+// include media breakpoints
+$breakpoints: (
+  phone: 320px,
+  phone-size-lg: 450px,
+  tablet-size-sm: 550px,
+  tablet: 768px,
+  desktop: 1024px,
+  laptop-size-sm: 1450px,
+  desktop-size-md: 1024px,
+  desktop-size-lg: 1240px,
+  desktop-size-xl: 1920px,
+);
+
+// global variables
+
+// buttons
+$global-button-vertical-padding: 1rem;
+$global-button-horizontal-padding: 3.2rem;
+$global-button-font-size: 1.6rem;
+
+// navigation
+// header - the black bar on the right.
+// $global-header-width: 27.5rem;
+$global-header-width: 27.5rem;
+$global-nav-mobile-horizontal-padding: 1.75rem;
+$global-top-bar-height: 9.3rem;
+$global-top-bar-height-mobile: 8rem;
+
+$global-container-desktop-horizontal-padding: 6.4rem;
+$global-container-medium-horizontal-padding: 3rem;
+$global-container-mobile-horizontal-padding: 3rem;
+
+// login page variables
+$login-page-global-wrapper-max-width: 1850px;
+$login-page-global-mobile-padding: 65px;
+
+// trust-pages variables
+$trust-pages-stacking-breakpoint: 1090px;

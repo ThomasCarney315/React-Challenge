@@ -1,0 +1,60 @@
+@use "sass:string";
+
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+    @return $string;
+}
+
+@mixin animate($time: 0s, $play: autoplay, $loop: false, $delay:0s) {
+    $anim-name: str-replace( str-replace( str-replace( str-replace( str-replace(string.quote("#{&}"), '.', ''), ':', '-' ), ' ', '-' ), '(', '-' ), ')', '-' );
+    $anim-name: "#{$anim-name}-#{$play}";
+    $direction: '';
+
+    @if ($loop == true) {
+        $direction : 'infinite';
+    }
+
+    @if ($play == autoplay) {
+        animation: #{$anim-name} cubic-bezier(0, 0, 0, 1) #{$time} #{$delay} #{$direction};
+        animation-fill-mode: forwards;
+        @keyframes #{$anim-name} {
+            @content;
+        }
+    }
+
+    @else {
+        &.#{$play} {
+            animation: #{$anim-name} cubic-bezier(0, 0, 0, 1) #{$time} #{$delay} #{$direction};
+            animation-fill-mode: forwards;
+            @keyframes #{$anim-name} {
+                @content;
+            }
+        }
+    }
+
+}
+
+@mixin animate-in($time: 0s, $loop: false, $delay:0s) {
+    @include animate($time, 'animate-in', $loop, $delay) {
+        @content;
+    }
+}
+
+@mixin animate-out($time: 0s, $loop: false, $delay:0s) {
+    @include animate($time, 'animate-out', $loop, $delay) {
+        @content;
+    }
+}
+
+
+// .lazyload,
+// .lazyloading {
+//     opacity: 0;
+// }
+// .lazyloaded {
+//     opacity: 1;
+//     transition: opacity 300ms;
+// }

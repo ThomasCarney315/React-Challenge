@@ -1,0 +1,215 @@
+.button {
+    $this: '.button';
+    background-color: $text-black;
+    color: $white;
+    box-shadow: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 250ms;
+    padding: $global-button-vertical-padding $global-button-horizontal-padding;
+    font-size: $global-button-font-size;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 7rem;
+    border: none;
+
+    &:hover {
+        background-color: $link-blue;
+    }
+
+    &--disabled {
+        &#{$this}, &#{$this}--blue { // specificity
+            background-color: $disabledGrey;
+            border-color: $disabledGrey;
+            pointer-events: none;
+            color: $white;
+        }
+    }
+    // color variants
+    &--blue {
+        background-color: $link-blue;
+        color: $white;
+        transition: all 250ms;
+        border: none;
+        &:hover {
+            background-color: $lighter-blue;
+            color: $white;
+            opacity: 1;
+        }
+    }
+    &--orange {
+        background-color: $orange;
+        border-color: $orange;
+        color: $white;
+        opacity: 1;
+        &:hover {
+          opacity: .8;
+          background-color: $orange;
+          color: $white;
+        }
+    }
+    &--hover-arrow {
+        transition: 250ms all;
+        @include pseudo {
+            position: absolute;
+            right: 3rem;
+            opacity: 0;
+            transform: translateY(-50%);
+            transition: 250ms all;
+        }
+        &:hover {
+            color: $white;
+            padding-right: 4.5rem;
+            @include pseudo {
+                @include size(2rem);
+                position: absolute;
+                background-image: url('/static/imgs/app/arrow-right-white.svg');
+                background-size: contain;
+                top: 53%;
+                right: 1.75rem;
+                opacity: 1;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+    &--mini {
+        $mini-size: .80;
+        padding: calc($mini-size * $global-button-vertical-padding ) calc($mini-size * $global-button-horizontal-padding );
+        font-size: calc($mini-size * $global-button-font-size);
+    }
+
+    &--ghost-grey-black-text {
+        color: $text-black;
+        border: 2px solid #e5e5e5;
+        background: none;
+        transition: 250ms all;
+        &:hover {
+            background: none;
+            opacity: .75;
+            color: $text-black;
+        }
+    }
+
+    &--ghost-grey-black-text-white-background {
+        color: $text-black;
+        border: 2px solid #e5e5e5;
+        background: $white;
+        transition: 250ms all;
+        &:hover {
+            background: none;
+            opacity: .75;
+            color: $text-black;
+        }
+    }
+    &--ghost-grey {
+        border: 1px solid #e5e5e5;
+        background: transparent;
+        color: $ghost-grey;
+        &:not(&-no-hover-color) {
+            &:hover {
+                color: $white;
+                border-color: $link-blue;
+            }
+        }
+    }
+
+    &--ghost-grey-transparent-hover {
+        border: 1px solid #e5e5e5;
+        background: none;
+        color: #595959;
+        &:not(&-no-hover-color) {
+            &:hover {
+                color: #595959;
+                background: none;
+                opacity: .75;
+                &:before {
+                    filter: none;
+                }
+            }
+        }
+    }
+    &--ghost-grey-danger-hover {
+        border: 1px solid #e5e5e5;
+        background: none;
+        color: #595959;
+        &:not(&-no-hover-color) {
+            &:hover {
+                background: $red;
+                opacity: 1;
+                color: $white;
+                border-color: $red;
+            }
+        }
+    }
+
+    &--ghost-grey-no-hover-color {
+        @extend .button--ghost-grey;
+        &:hover {
+            background-color: transparent;
+            color: $ghost-grey;
+        }
+    }
+
+
+    &--red {
+        border: 1px solid $red;
+        background: $red;
+        color: $white;
+        opacity: 1;
+        &:hover {
+            background: $red;
+            opacity: .75;
+            color: $white;
+        }
+    }
+
+    &--plain-text-without-border {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: $text-black;
+        font-weight: normal;
+        &:hover {
+            background: transparent;
+            color: $lighter-blue;
+        }
+    }
+
+    &--black-border {
+        border: 1px solid $true-black;
+        background: $white;
+        color: $true-black;
+        opacity: 1;
+        &:hover {
+            opacity: .75;
+        }
+    }
+
+    &--disabled-loading {
+        &.button {
+            @include perch('+--');
+            padding-left: 5.5rem;
+            background-color: $disabledGrey;
+            border-color: $disabledGrey;
+            position: relative;
+            pointer-events: none;
+        }
+    }
+
+    // icons
+    &--chat-light {
+        @include newIconButton('chat-light', 'light', '/static/imgs/icons/chat-bubble.svg');
+    }
+    &--edit-grey {
+        @include newIconButton('edit-grey', 'light-on-hover', '/static/imgs/icons/edit-grey.svg');
+    }
+    &--edit-white {
+        @include newIconButton('edit-white', 'light-on-hover', '/static/imgs/icons/edit-white.svg');
+    }
+
+    &--send-outlined {
+        @include newIconButton('send-outline', 'light-on-hover', '/static/imgs/icons/send-outline.svg');
+    }
+}
+
+// icons

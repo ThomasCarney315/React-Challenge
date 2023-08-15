@@ -1,0 +1,55 @@
+@mixin utility-class-spacing (
+
+    $selectors-types: ("p", "m"),
+    $selector-directions: ("t", "r", "b", "l", "h", "v", ""),
+    $integers: ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+    $decimal-units: ("", "_25", "_5", "_75"),
+    $scaling-units: "em"
+    ) {
+
+    @each $selector-type in $selectors-types {
+        @each $selector-direction in $selector-directions {
+            @each $integer in $integers {
+                @each $decimal-unit in $decimal-units {
+
+                    // get the spacing type
+                    $property: "";
+                    @if $selector-type == "p" {$property: "padding"}
+                    @if $selector-type == "m" {$property: "margin"}
+
+                    // get the direction
+                    $property-directions: "";
+                    $hide-extra-dash: false;
+                    @if $selector-direction == "t" { $property-directions: ("-top"); }
+                    @if $selector-direction == "r" { $property-directions: ("-right"); }
+                    @if $selector-direction == "b" { $property-directions: ("-bottom"); }
+                    @if $selector-direction == "l" { $property-directions: ("-left"); }
+                    @if $selector-direction == "h" { $property-directions: ("-right", "-left"); }
+                    @if $selector-direction == "v" { $property-directions: ("-top", "-bottom"); }
+                    @if $selector-direction == "" { $hide-extra-dash: true; $property-directions: (""); }
+
+                    // convert the decimal selector
+                    $decimal-converted: "";
+                    $decimal-converted: str-replace($decimal-unit, "_", ".");
+
+                    // use an extra dash on all selectors except the "all" mode.
+                    $extra-dash: "-";
+                    @if $hide-extra-dash == true { $extra-dash: ""; }
+
+                    // the selector
+                    .#{$selector-type}#{$extra-dash}#{$selector-direction}-#{$integer}#{$decimal-unit} {
+                        @each $property-direction in $property-directions {
+                            #{$property}#{$property-direction}: #{$integer}#{$decimal-converted}#{$scaling-units};
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include utility-class-spacing(
+    $selectors-types: ("p"),
+    $integers: ("0", "1", "2", "3"),
+    $decimal-units: ("", "_5")
+);

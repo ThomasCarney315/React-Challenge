@@ -1,0 +1,432 @@
+.billing-table {
+  $this: '.billing-table';
+  $viewonly: '#{$this}--viewonly';
+  $billing-page: '.page--billing';
+  $invoice-page: '.page--invoice';
+  $client-facing: '.preview.preview--client-facing';
+
+  $stacking-breakpoint: 1150px;
+  margin-top: 1em;
+  @include when($client-facing, root) {
+    margin-top: 0;
+  }
+
+  &--empty {
+    background-color: #f9f9f9;
+    color: #d5d5d5;
+    text-align: center;
+    font-size: 2.8rem;
+    padding: 4rem;
+    border-top: 1px solid #d1d1d1;
+  }
+
+  &__auto-saved {
+    color: $true-black;
+    text-align: right;
+
+    @include newIconButton('auto-save', $type:null, $iconUrl:'/static/imgs/billing/check.svg', $iconSize: 1.5rem);
+    padding-left: 4.5rem;
+    padding-right: 0;
+    opacity: .75;
+    color: #acacac;
+
+  }
+
+  &__outer-head {
+    @include perch('^-^');
+  }
+
+  &__tr {
+    position: relative;
+    border-bottom: solid 1px #d1d1d1;
+    cursor: pointer;
+    transition: all 125ms;
+    background-repeat: no-repeat;
+    background-position: 98.5% center;
+    @include media("<=#{$stacking-breakpoint}") {
+      padding-bottom: 2rem;
+    }
+    @include when($billing-page) {
+      &:hover {
+        background-image: url('/static/imgs/billing/caret-right.svg');
+      }
+      @include media('<=#{$stacking-breakpoint}') {
+        background-image: url('/static/imgs/billing/caret-right.svg');
+        padding: 2rem 4rem 2rem 1rem;
+      }
+    }
+    @include when($invoice-page) {
+      &:hover {
+        .td-action button {
+          @extend %loose-caps-small;
+          color: #9d9d9d;
+        }
+      }
+    }
+    &:first-child {
+      // padding-top: 0;
+    }
+    @include media("<=#{$stacking-breakpoint}") {
+      display: grid;
+      margin-bottom: 0;
+      padding: 2rem 1rem;
+      text-align: left;
+
+    }
+    @include when( $viewonly ) {
+      border-bottom: solid 1px #d1d1d1;
+      transition: none;
+      &:hover {
+        cursor: default;
+        border-bottom-color: #999999;
+        background-image: none;
+        background-color: transparent;
+      }
+    }
+
+    &--team-member {
+      background: #f7f7f7;
+      font-weight: bold;
+      font-size: 1.4em;
+      border-bottom: 0 !important;
+
+      &:hover {
+        background: #f7f7f7 !important;
+      }
+
+      @include media('<=#{$stacking-breakpoint}') {
+        padding: 2rem 4rem 2rem 1rem;
+      }
+
+      td { 
+        @include media('>#{$stacking-breakpoint}') {
+          padding: 10px 32px !important;
+        }
+      }
+
+
+    }
+
+    &--new-team-member-on-next-row {
+      border-bottom-width: 0px !important;
+    }
+
+    td {
+      padding: 20px 32px;
+      position: relative;
+
+      @include media("<=#{$stacking-breakpoint}") {
+        padding: 0;
+      }
+
+
+      .row-actions {
+        position: absolute;
+        display: none;
+        justify-content: end;
+        align-items: center;
+        width: 0px;
+        height: 0;
+        gap: 8px;
+        right: 15px;
+
+        &.showOnly {
+          height: 100%;
+          top: 0;
+          display: inline-flex;
+        }
+
+        button {
+          font-size: 24px;
+          line-height: 1;
+          border: none;
+          padding: 0;
+          background: transparent;
+          height: 24px;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+    }
+
+    &.editable-row {
+      td {
+        vertical-align: top;
+        padding: 22px 16px;
+
+        .custom-input,
+        input {
+          width: 100%;
+          text-align: center;
+          background: transparent;
+          min-height: 40px;
+          border: solid 1px gray;
+          border-radius: 4px;
+          &:focus-visible,
+          &:focus,
+          &:active {
+            outline: none !important;
+            border-color: $link-blue !important;
+          }
+        }
+
+        div[contenteditable] {
+          padding: 6px 16px;
+          border: solid 1px gray;
+          min-height: 40px;
+          border-radius: 4px;
+          &:focus-visible {
+            outline: none !important;
+            border-color: $link-blue !important;
+          }
+        }
+
+        .edit-action {
+          width: 0;
+          button {
+            margin: 3px 0;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &:hover,
+    &.active {
+      background-color: #ececec;
+      .row-actions {
+        display: inline-flex;
+      }
+    }
+
+
+  }
+  &__td {
+      @extend %section-paragraph;
+      @include media("<=#{$stacking-breakpoint}") {
+        font-size: 2rem;
+      }
+  }
+
+  &__td {
+    padding: 20px 32px;
+    position: relative;
+
+    @include media("<=#{$stacking-breakpoint}") {
+      padding: 0;
+    }
+
+
+    .row-actions {
+      position: absolute;
+      display: none;
+      justify-content: end;
+      align-items: center;
+      width: 0px;
+      height: 0;
+      gap: 8px;
+      right: 15px;
+
+      &.showOnly {
+        height: 100%;
+        top: 0;
+        display: inline-flex;
+      }
+
+      button {
+        font-size: 24px;
+        line-height: 1;
+        border: none;
+        padding: 0;
+        background: transparent;
+        height: 24px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+
+  &--footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+
+    @include media("<=#{$stacking-breakpoint}") {
+      @include perch('_==<');
+      padding: 0;
+      gap: 1.5rem;
+    }
+
+    button {
+      display: flex;
+      gap: 8px;
+      font-weight: 500;
+      height: fit-content; 
+    }
+
+    &--field {
+      display: flex;
+      justify-content: space-between;
+      width: 300px;
+      font-size: 20px;
+      padding: 3px 0;
+    }
+  }
+
+  table {
+
+    width: 100%;
+
+    @include media("<=#{$stacking-breakpoint}") {
+      display: block;
+    }
+    
+
+    thead {
+      background: #e7e7e7;
+
+      tr {
+        th {
+          span {
+            @extend %loose-caps-small;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+          }
+          padding: 14px 32px;
+          font-weight: bold;
+          cursor: pointer;
+          user-select: none;
+        }
+      }
+
+    @include media("<=#{$stacking-breakpoint}") {
+        display: none;
+      }
+    }
+
+    tbody {
+    @include media("<=#{$stacking-breakpoint}") {
+        display: block;
+      }
+
+    }
+  }
+
+  table.invoice-table tr {
+    @include media("<=#{$stacking-breakpoint}") {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas:
+        "a b"
+        "c d"
+        "e d";
+
+      .td-type {
+        grid-area: a; font-weight: bold
+      }
+      .td-date_sent {
+        grid-area: b; text-align: right;
+      }
+      .td-formatted_invoice_number {
+        grid-area: c;
+      }
+      .td-status {
+        grid-area: d; place-self: center right;
+      }
+      .td-total_price_for_invoice_formatted {
+        grid-area: e;
+      }
+    }
+  }
+
+  table.time-entry-table tr {
+    @include media("<=#{$stacking-breakpoint}") {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas:
+        "a b"
+        "c d"
+        "e e";
+
+      .td-date { grid-area: a; font-weight: bold }
+      .td-description { grid-area: e;  }
+      .td-duration { 
+        grid-area: c;   
+        &::after { content: " hours"; }
+      }
+      .td-rate { 
+        grid-area: d; 
+        text-align: right;
+      }
+      .td-amount { grid-area: b; font-weight: bold; text-align: right; }
+      .td-action { display: none }
+
+    }
+  }
+
+  table.expense-table tr {
+    @include media("<=#{$stacking-breakpoint}") {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas:
+        "a b"
+        "c c";
+
+      .td-date { grid-area: a; font-weight: bold }
+      .td-description { grid-area: c;  }
+      .td-amount { grid-area: b; font-weight: bold; text-align: right; }
+      .td-action { display: none }
+
+    }
+  }
+
+  .invoice {
+    &--status {
+      font-size: 1.6em;
+      padding: .25em .75em;
+      border-radius: 15px;
+      border: solid 1px;
+      font-weight: bold;
+    }
+
+    &--draft {
+      border-color: #ffb318;
+      background: #ffb318;
+      color: white;
+    }
+
+    &--sent {
+      border-color: #1890ff;
+      background-color: #1890ff;
+      color: white;
+    }
+
+    &--paid {
+      border-color: #14d56a;
+      background: #14d56a;
+      color: white;
+    }
+
+  }
+  .td-date_sent {
+    color: #838383;
+  }
+  .td-status {
+    font-size: 1rem;
+  }
+  &__button {
+    @include newIconButton('add-time', $type:null, $iconUrl:'/static/imgs/billing/add-entry.svg', $iconSize: contain);
+    @extend .button--ghost-grey-black-text;
+    text-transform: uppercase;
+    @include media('<=tablet') {
+      @include perch('-+-');
+      @include spring(100%);
+      text-align: center;
+    }
+  }
+}
